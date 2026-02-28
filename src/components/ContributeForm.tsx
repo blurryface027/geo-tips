@@ -44,6 +44,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
     const [description, setDescription] = useState('');
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | undefined>(undefined);
+    const [imageSize, setImageSize] = useState<'small' | 'medium' | 'large'>('medium');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -63,6 +64,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
             setCountry(hintToEdit.country || '');
             setDescription(hintToEdit.description);
             setImagePreview(hintToEdit.image);
+            setImageSize(hintToEdit.imageSize || 'medium');
         } else {
             handleReset();
         }
@@ -75,6 +77,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
         setDescription('');
         setImageFile(null);
         setImagePreview(undefined);
+        setImageSize('medium');
         setOriginalImageSrc(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
@@ -141,7 +144,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!title || !description || !categoryId || !country || isSubmitting) return;
+        if (!description || !categoryId || !country || isSubmitting) return;
 
         setIsSubmitting(true);
         try {
@@ -172,6 +175,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
                 category_id: categoryId,
                 country: country,
                 image_url: imageUrl,
+                image_size: imageSize,
                 updated_at: new Date().toISOString()
             };
 
@@ -263,7 +267,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">Title (Optional)</label>
                     <input
                         id="title"
                         type="text"
@@ -271,7 +275,6 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="e.g. Estonian Bollard"
                         className="form-input"
-                        required
                     />
                 </div>
 
@@ -318,6 +321,21 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
                     />
                     {imagePreview && (
                         <div className="image-preview-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+                            <div className="form-group">
+                                <label>Image Size</label>
+                                <div className="size-toggle">
+                                    {(['small', 'medium', 'large'] as const).map(size => (
+                                        <button
+                                            key={size}
+                                            type="button"
+                                            className={`size-toggle-btn${imageSize === size ? ' active' : ''}`}
+                                            onClick={() => setImageSize(size)}
+                                        >
+                                            {size.charAt(0).toUpperCase() + size.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                             <div className="image-preview" style={{ margin: 0 }}>
                                 <img src={imagePreview} alt="Preview" />
                             </div>

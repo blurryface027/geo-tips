@@ -538,7 +538,7 @@ select.form-input {
 
 .entries-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 24px;
   width: 100%;
 }
@@ -567,9 +567,57 @@ select.form-input {
 .hint-card-image img {
   width: 100%;
   height: auto;
-  max-height: 400px;
   object-fit: contain;
   border-radius: 4px;
+}
+
+/* Image size variants */
+.hint-img-small img {
+  max-height: 120px;
+}
+
+.hint-img-medium img {
+  max-height: 300px;
+}
+
+.hint-img-large img {
+  max-height: 600px;
+}
+
+/* Size toggle in contribute form */
+.size-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.size-toggle-btn {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: #ffffff;
+  color: #666666;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-right: 1px solid #e5e5e5;
+}
+
+.size-toggle-btn:last-child {
+  border-right: none;
+}
+
+.size-toggle-btn:hover {
+  background: #f5f5f5;
+  color: #000000;
+}
+
+.size-toggle-btn.active {
+  background: #000000;
+  color: #ffffff;
 }
 
 .hint-card-content {
@@ -588,7 +636,7 @@ select.form-input {
 
 .hint-card-content h4 {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: #000000;
   margin: 0;
   line-height: 1.4;
@@ -604,19 +652,24 @@ select.form-input {
 /* Responsiveness */
 @media (max-width: 1200px) {
   .entries-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media (max-width: 992px) {
   .entries-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hint-card-content h4,
+  .hint-card-content p {
+    text-align: center;
   }
 }
 
 @media (max-width: 640px) {
   .entries-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .content {

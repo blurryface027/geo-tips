@@ -49,79 +49,53 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
           {!isContributePage && !loading && hints.length > 0 && (
             <section className="contributions-section">
               {isCategoryPage ? (
-                Object.entries(
-                  hints.reduce((acc, hint) => {
-                    const country = hint.country || 'Other';
-                    if (!acc[country]) acc[country] = [];
-                    acc[country].push(hint);
-                    return acc;
-                  }, {} as Record<string, Hint[]>)
-                ).map(([country, countryHints], index, array) => (
-                  <div key={country} className="country-group-wrapper">
-                    <div className="country-group">
-                      <h2 className="country-group-title">{country.replace(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]\s*/g, '')}</h2>
-                      <div className="entries-grid">
-                        {countryHints.map((hint) => (
-                          <div key={hint.id} className="hint-card">
+                <div className="country-group-wrapper">
+                  <div className="country-group">
+                    <div className="entries-grid">
+                      {hints.map((hint) => (
+                        <div key={hint.id} className="hint-card">
+                          {hint.title && (
                             <div className="hint-card-content hint-header">
                               <h4>{hint.title}</h4>
                             </div>
-                            {hint.image && (
-                              <div className="hint-card-image">
-                                <img src={hint.image} alt={hint.title} loading="lazy" />
-                              </div>
-                            )}
-                            <div className="hint-card-content hint-description">
-                              <p>{hint.description}</p>
+                          )}
+                          {hint.image && (
+                            <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
+                              <img src={hint.image} alt={hint.title} loading="lazy" />
                             </div>
+                          )}
+                          <div className="hint-card-content hint-description">
+                            <p>{hint.description}</p>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                    {index < array.length - 1 && <hr className="content-divider" />}
-                  </div>
-                ))
-              ) : (
-                Object.entries(
-                  hints.reduce((acc, hint) => {
-                    const category = hint.categoryId || 'Other';
-                    if (!acc[category]) acc[category] = [];
-                    acc[category].push(hint);
-                    return acc;
-                  }, {} as Record<string, Hint[]>)
-                ).map(([category, categoryHints], index, array) => {
-                  // Format 'bollard' to 'Bollard', 'road-markings' to 'Road Markings'
-                  const formattedCategory = category
-                    .split('-')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ');
-
-                  return (
-                    <div key={category} className="country-group-wrapper">
-                      <div className="country-group">
-                        <h2 className="country-group-title">{formattedCategory}</h2>
-                        <div className="entries-grid">
-                          {categoryHints.map((hint) => (
-                            <div key={hint.id} className="hint-card">
-                              <div className="hint-card-content hint-header">
-                                <h4>{hint.title}</h4>
-                              </div>
-                              {hint.image && (
-                                <div className="hint-card-image">
-                                  <img src={hint.image} alt={hint.title} loading="lazy" />
-                                </div>
-                              )}
-                              <div className="hint-card-content hint-description">
-                                <p>{hint.description}</p>
-                              </div>
-                            </div>
-                          ))}
                         </div>
-                      </div>
-                      {index < array.length - 1 && <hr className="content-divider" />}
+                      ))}
                     </div>
-                  );
-                })
+                  </div>
+                </div>
+              ) : (
+                <div className="country-group-wrapper">
+                  <div className="country-group">
+                    <div className="entries-grid">
+                      {hints.map((hint) => (
+                        <div key={hint.id} className="hint-card">
+                          {hint.title && (
+                            <div className="hint-card-content hint-header">
+                              <h4>{hint.title}</h4>
+                            </div>
+                          )}
+                          {hint.image && (
+                            <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
+                              <img src={hint.image} alt={hint.title} loading="lazy" />
+                            </div>
+                          )}
+                          <div className="hint-card-content hint-description">
+                            <p>{hint.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
             </section>
           )}
@@ -145,7 +119,7 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                       <div key={hint.id} className="contribution-item">
                         <div className="contribution-info">
                           <span className="contribution-cat">{hint.categoryId}</span>
-                          <strong>{hint.title}</strong>
+                          {hint.title && <strong>{hint.title}</strong>}
                         </div>
                         <div className="contribution-actions">
                           <button type="button" onClick={() => handleEditClick(hint)}>Edit</button>

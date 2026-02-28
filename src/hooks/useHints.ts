@@ -22,6 +22,7 @@ export function useHints(activePage: string, isCategoryPage: boolean) {
         title,
         description,
         image_url,
+        image_size,
         category_id,
         country,
         created_at
@@ -47,8 +48,9 @@ export function useHints(activePage: string, isCategoryPage: boolean) {
                 categoryId: hint.category_id,
                 title: hint.title,
                 description: hint.description || '',
-                country: hint.country || undefined, // use just country string matching content.tsx
+                country: hint.country || undefined,
                 image: hint.image_url || undefined,
+                imageSize: (hint.image_size as 'small' | 'medium' | 'large') || 'medium',
                 timestamp: hint.created_at
             }));
             setHints(formattedHints);

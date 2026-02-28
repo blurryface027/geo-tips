@@ -19,6 +19,7 @@ export interface Hint {
   description: string;
   country?: string;
   image?: string;
+  imageSize?: 'small' | 'medium' | 'large';
   timestamp: string; // ISO string from created_at
 }
 

@@ -26,6 +26,7 @@ create table public.hints (
   title text not null,
   description text,
   image_url text,
+  image_size text default 'medium', -- 'small', 'medium', or 'large'
   category_id text not null, -- Adjusted to take strings like 'bollard'
   country text,              -- Adjusted to take strings like 'Botswana'
   created_at timestamp with time zone default now(),
@@ -107,3 +108,6 @@ create policy "Allow public read categories" on public.categories for select usi
 -- drop table if exists public.countries cascade;
 -- drop table if exists public.regions cascade;
 -- drop table if exists public.categories cascade;
+
+-- Run this to add image_size to an existing hints table:
+alter table public.hints add column if not exists image_size text default 'medium';
