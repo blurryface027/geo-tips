@@ -62,7 +62,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
             setTitle(hintToEdit.title);
             setCategoryId(hintToEdit.categoryId);
             setCountry(hintToEdit.country || '');
-            setDescription(hintToEdit.description);
+            setDescription(hintToEdit.description || '');
             setImagePreview(hintToEdit.image);
             setImageSize(hintToEdit.imageSize || 'medium');
         } else {
@@ -144,7 +144,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!description || !categoryId || !country || isSubmitting) return;
+        if (!categoryId || !country || isSubmitting) return;
 
         setIsSubmitting(true);
         try {
@@ -297,7 +297,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="description">Description</label>
+                    <label htmlFor="description">Description (Optional)</label>
                     <textarea
                         id="description"
                         value={description}
@@ -305,7 +305,6 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
                         placeholder="Describe the hint or clue..."
                         className="form-input"
                         rows={5}
-                        required
                     />
                 </div>
 

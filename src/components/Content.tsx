@@ -64,9 +64,11 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                               <img src={hint.image} alt={hint.title} loading="lazy" />
                             </div>
                           )}
-                          <div className="hint-card-content hint-description">
-                            <p>{hint.description}</p>
-                          </div>
+                          {hint.description && (
+                            <div className="hint-card-content hint-description">
+                              <p>{hint.description}</p>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -78,19 +80,16 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                     <div className="entries-grid">
                       {hints.map((hint) => (
                         <div key={hint.id} className="hint-card">
-                          {hint.title && (
-                            <div className="hint-card-content hint-header">
-                              <h4>{hint.title}</h4>
-                            </div>
-                          )}
                           {hint.image && (
                             <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
                               <img src={hint.image} alt={hint.title} loading="lazy" />
                             </div>
                           )}
-                          <div className="hint-card-content hint-description">
-                            <p>{hint.description}</p>
-                          </div>
+                          {hint.description && (
+                            <div className="hint-card-content hint-description">
+                              <p>{hint.description}</p>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>

@@ -16,7 +16,7 @@ export interface Hint {
   id: string;
   categoryId: string;
   title: string;
-  description: string;
+  description?: string;
   country?: string;
   image?: string;
   imageSize?: 'small' | 'medium' | 'large';
