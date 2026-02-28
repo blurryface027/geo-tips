@@ -538,7 +538,7 @@ select.form-input {
 
 .entries-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   width: 100%;
 }
@@ -573,17 +573,17 @@ select.form-input {
 
 /* Image size variants — desktop max-heights */
 .hint-img-small img {
-  max-height: 200px;
+  max-height: 350px;
   max-width: 100%;
 }
 
 .hint-img-medium img {
-  max-height: 400px;
+  max-height: 600px;
   max-width: 100%;
 }
 
 .hint-img-large img {
-  max-height: 800px;
+  max-height: 1000px;
   max-width: 100%;
 }
 
@@ -692,13 +692,13 @@ select.form-input {
 /* Responsiveness */
 @media (max-width: 1200px) {
   .entries-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 992px) {
   .entries-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .hint-card-content h4,
