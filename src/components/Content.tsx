@@ -53,7 +53,7 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                   <div className="country-group">
                     <div className="entries-grid">
                       {hints.map((hint) => (
-                        <div key={hint.id} className="hint-card">
+                        <div key={hint.id} className={`hint-card hint-card-size-${hint.imageSize || 'medium'}`}>
                           {hint.title && (
                             <div className="hint-card-content hint-header">
                               <h4>{hint.title}</h4>
@@ -79,7 +79,7 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                   <div className="country-group">
                     <div className="entries-grid">
                       {hints.map((hint) => (
-                        <div key={hint.id} className="hint-card">
+                        <div key={hint.id} className={`hint-card hint-card-size-${hint.imageSize || 'medium'}`}>
                           {hint.image && (
                             <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
                               <img src={hint.image} alt={hint.title} loading="lazy" />

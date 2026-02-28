@@ -571,7 +571,7 @@ select.form-input {
   border-radius: 4px;
 }
 
-/* Image size variants — desktop */
+/* Image size variants — desktop max-heights */
 .hint-img-small img {
   max-height: 200px;
   max-width: 100%;
@@ -587,33 +587,38 @@ select.form-input {
   max-width: 100%;
 }
 
-/* Mobile image width rules (≤768px) */
+/* Large cards always span full grid width */
+.hint-card-size-large {
+  grid-column: 1 / -1;
+}
+
+.hint-card-size-large .hint-img-large {
+  width: 100%;
+}
+
+.hint-card-size-large .hint-img-large img {
+  width: 100%;
+  max-height: none;
+}
+
+/* Mobile card-level width rules (≤768px) */
 @media (max-width: 768px) {
-  .hint-img-large {
-    width: 100%;
-  }
-
-  .hint-img-large img {
-    width: 100%;
-    max-height: none;
-  }
-
-  .hint-img-medium {
+  .hint-card-size-medium .hint-img-medium {
     width: 70%;
     margin: 0 auto;
   }
 
-  .hint-img-medium img {
+  .hint-card-size-medium .hint-img-medium img {
     width: 100%;
     max-height: none;
   }
 
-  .hint-img-small {
+  .hint-card-size-small .hint-img-small {
     width: 45%;
     margin: 0 auto;
   }
 
-  .hint-img-small img {
+  .hint-card-size-small .hint-img-small img {
     width: 100%;
     max-height: none;
   }
