@@ -604,8 +604,8 @@ select.form-input {
 /* Mobile card-level width rules (≤768px) */
 @media (max-width: 768px) {
   .hint-card-size-medium .hint-img-medium {
-    width: 70%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
   }
 
   .hint-card-size-medium .hint-img-medium img {
@@ -614,8 +614,8 @@ select.form-input {
   }
 
   .hint-card-size-small .hint-img-small {
-    width: 45%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
   }
 
   .hint-card-size-small .hint-img-small img {
@@ -707,7 +707,9 @@ select.form-input {
   }
 }
 
-@media (max-width: 640px) {
+
+
+@media (max-width: 768px) {
   .entries-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -715,9 +717,7 @@ select.form-input {
   .content {
     padding: 24px 16px;
   }
-}
 
-@media (max-width: 768px) {
   .site-title {
     margin-left: 64px;
     font-size: 16px;
@@ -739,7 +739,6 @@ select.form-input {
 
   .hint-card-image {
     max-width: 100%;
-    max-height: 400px;
   }
 
 
