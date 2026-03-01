@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Page, Hint } from '../types';
 import ContributeForm from './ContributeForm';
+import { AdminLogin, isAdminAuthenticated } from './AdminLogin';
 import { supabase } from '../lib/supabase';
 
 interface ContentProps {
@@ -18,6 +19,7 @@ interface LightboxState {
 export default function Content({ page, hints, isCategoryPage, loading }: ContentProps) {
   const [hintToEdit, setHintToEdit] = useState<Hint | null>(null);
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => isAdminAuthenticated());
   const isContributePage = page.id === 'contribute';
 
   const openLightbox = useCallback((src: string, alt: string) => {
@@ -174,32 +176,36 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
 
           {/* Form only on contribute page */}
           {isContributePage && (
-            <>
-              <ContributeForm
-                hintToEdit={hintToEdit}
-                onCancelEdit={() => setHintToEdit(null)}
-              />
+            isAuthenticated ? (
+              <>
+                <ContributeForm
+                  hintToEdit={hintToEdit}
+                  onCancelEdit={() => setHintToEdit(null)}
+                />
 
-              {hints.length > 0 && (
-                <section className="my-contributions">
-                  <h2>My Contributions</h2>
-                  <div className="hints-grid">
-                    {hints.map(hint => (
-                      <div key={hint.id} className="contribution-item">
-                        <div className="contribution-info">
-                          <span className="contribution-cat">{hint.categoryId}</span>
-                          {hint.title && <strong>{hint.title}</strong>}
+                {hints.length > 0 && (
+                  <section className="my-contributions">
+                    <h2>My Contributions</h2>
+                    <div className="hints-grid">
+                      {hints.map(hint => (
+                        <div key={hint.id} className="contribution-item">
+                          <div className="contribution-info">
+                            <span className="contribution-cat">{hint.categoryId}</span>
+                            {hint.title && <strong>{hint.title}</strong>}
+                          </div>
+                          <div className="contribution-actions">
+                            <button type="button" onClick={() => handleEditClick(hint)}>Edit</button>
+                            <button type="button" className="delete-btn" onClick={() => handleDeleteClick(hint)}>Delete</button>
+                          </div>
                         </div>
-                        <div className="contribution-actions">
-                          <button type="button" onClick={() => handleEditClick(hint)}>Edit</button>
-                          <button type="button" className="delete-btn" onClick={() => handleDeleteClick(hint)}>Delete</button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-            </>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </>
+            ) : (
+              <AdminLogin onSuccess={() => setIsAuthenticated(true)} />
+            )
           )}
         </div>
       </article>

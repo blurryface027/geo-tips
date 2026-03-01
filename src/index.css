@@ -976,3 +976,92 @@ select.form-input {
 .lightbox-close:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* ── Admin Login ── */
+.admin-login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 0 64px;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #ffffff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.admin-login-icon {
+  display: flex;
+  justify-content: center;
+}
+
+.admin-login-icon svg {
+  width: 44px;
+  height: 44px;
+  color: #000000;
+}
+
+.admin-login-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  margin: 0;
+}
+
+.admin-login-subtitle {
+  font-size: 14px;
+  color: #666666;
+  text-align: center;
+  margin: -12px 0 0;
+  line-height: 1.5;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-login-error {
+  font-size: 13px;
+  color: #cc0000;
+  margin-top: 4px;
+}
+
+/* Shake animation on wrong password */
+@keyframes admin-shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-8px);
+  }
+
+  40% {
+    transform: translateX(8px);
+  }
+
+  60% {
+    transform: translateX(-6px);
+  }
+
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.admin-login-shake {
+  animation: admin-shake 0.45s ease;
+}
