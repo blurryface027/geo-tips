@@ -48,33 +48,55 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
           {/* Dynamic Contributions Section - Grouped by Country for Categories, direct for Countries */}
           {!isContributePage && !loading && hints.length > 0 && (
             <section className="contributions-section">
-              {isCategoryPage ? (
-                <div className="country-group-wrapper">
-                  <div className="country-group">
-                    <div className="entries-grid">
-                      {hints.map((hint) => (
-                        <div key={hint.id} className={`hint-card hint-card-size-${hint.imageSize || 'medium'}`}>
-                          {hint.title && (
-                            <div className="hint-card-content hint-header">
-                              <h4>{hint.title}</h4>
+              {isCategoryPage ? (() => {
+                // Group hints by country, preserving insertion order
+                const groups: { country: string; hints: typeof hints }[] = [];
+                const seen = new Map<string, number>();
+                hints.forEach((hint) => {
+                  const key = hint.country || '';
+                  if (seen.has(key)) {
+                    groups[seen.get(key)!].hints.push(hint);
+                  } else {
+                    seen.set(key, groups.length);
+                    groups.push({ country: key, hints: [hint] });
+                  }
+                });
+                return groups.map(({ country, hints: groupHints }) => (
+                  <div key={country} className="country-group-wrapper">
+                    {country && (
+                      <h3 className="country-group-title">{country}</h3>
+                    )}
+                    <div className="country-group">
+                      <div className="entries-grid">
+                        {groupHints.map((hint) => {
+                          // Hide the title if it's just the country name (already shown as section heading)
+                          const titleIsCountry = hint.title?.trim().toLowerCase() === country.trim().toLowerCase();
+                          const showTitle = hint.title && !titleIsCountry;
+                          return (
+                            <div key={hint.id} className={`hint-card hint-card-size-${hint.imageSize || 'medium'}`}>
+                              {showTitle && (
+                                <div className="hint-card-content hint-header">
+                                  <h4>{hint.title}</h4>
+                                </div>
+                              )}
+                              {hint.image && (
+                                <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
+                                  <img src={hint.image} alt={hint.title} loading="lazy" />
+                                </div>
+                              )}
+                              {hint.description && (
+                                <div className="hint-card-content hint-description">
+                                  <p>{hint.description}</p>
+                                </div>
+                              )}
                             </div>
-                          )}
-                          {hint.image && (
-                            <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
-                              <img src={hint.image} alt={hint.title} loading="lazy" />
-                            </div>
-                          )}
-                          {hint.description && (
-                            <div className="hint-card-content hint-description">
-                              <p>{hint.description}</p>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
+                ));
+              })() : (
                 <div className="country-group-wrapper">
                   <div className="country-group">
                     <div className="entries-grid">
