@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Page, Hint } from '../types';
 import ContributeForm from './ContributeForm';
 import { supabase } from '../lib/supabase';
@@ -10,9 +10,31 @@ interface ContentProps {
   loading?: boolean;
 }
 
+interface LightboxState {
+  src: string;
+  alt: string;
+}
+
 export default function Content({ page, hints, isCategoryPage, loading }: ContentProps) {
   const [hintToEdit, setHintToEdit] = useState<Hint | null>(null);
+  const [lightbox, setLightbox] = useState<LightboxState | null>(null);
   const isContributePage = page.id === 'contribute';
+
+  const openLightbox = useCallback((src: string, alt: string) => {
+    setLightbox({ src, alt });
+  }, []);
+
+  const closeLightbox = useCallback(() => {
+    setLightbox(null);
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeLightbox(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [lightbox, closeLightbox]);
 
   const handleEditClick = (hint: Hint) => {
     setHintToEdit(hint);
@@ -31,16 +53,51 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
     }
   };
 
+  // Helper: render a single hint card image (clickable)
+  const renderHintImage = (hint: Hint) =>
+    hint.image ? (
+      <div
+        className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}
+        onClick={() => openLightbox(hint.image!, hint.title || '')}
+        title="Click to enlarge"
+      >
+        <img src={hint.image} alt={hint.title} loading="lazy" />
+      </div>
+    ) : null;
+
   return (
     <main className="content">
+      {/* ── Lightbox ── */}
+      {lightbox && (
+        <div
+          className="lightbox-overlay"
+          onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
+        >
+          <button
+            className="lightbox-close"
+            onClick={closeLightbox}
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <div
+            className="lightbox-content"
+            onClick={(e) => e.stopPropagation()} // clicking image itself doesn't close
+          >
+            <img src={lightbox.src} alt={lightbox.alt} />
+          </div>
+        </div>
+      )}
+
       <article>
         <h1>{page.title.replace(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]\s*/g, '')}</h1>
 
         {page.description && (
           <p className="category-description">{page.description}</p>
         )}
-
-        {/* Divider removed as requested */}
 
         {loading && <div className="loading">Loading hints...</div>}
 
@@ -72,7 +129,6 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                     <div className="country-group">
                       <div className="entries-grid">
                         {groupHints.map((hint) => {
-                          // Hide the title if it's just the country name (already shown as section heading)
                           const titleIsCountry = hint.title?.trim().toLowerCase() === country.trim().toLowerCase();
                           const showTitle = hint.title && !titleIsCountry;
                           return (
@@ -82,11 +138,7 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                                   <h4>{hint.title}</h4>
                                 </div>
                               )}
-                              {hint.image && (
-                                <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
-                                  <img src={hint.image} alt={hint.title} loading="lazy" />
-                                </div>
-                              )}
+                              {renderHintImage(hint)}
                               {hint.description && (
                                 <div className="hint-card-content hint-description">
                                   <p>{hint.description}</p>
@@ -105,11 +157,7 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
                     <div className="entries-grid">
                       {hints.map((hint) => (
                         <div key={hint.id} className={`hint-card hint-card-size-${hint.imageSize || 'medium'}`}>
-                          {hint.image && (
-                            <div className={`hint-card-image hint-img-${hint.imageSize || 'medium'}`}>
-                              <img src={hint.image} alt={hint.title} loading="lazy" />
-                            </div>
-                          )}
+                          {renderHintImage(hint)}
                           {hint.description && (
                             <div className="hint-card-content hint-description">
                               <p>{hint.description}</p>
@@ -123,7 +171,6 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
               )}
             </section>
           )}
-
 
           {/* Form only on contribute page */}
           {isContributePage && (
@@ -162,6 +209,6 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
         <p>Last updated: February 28, 2026</p>
         <p><a href="https://github.com/blurryface027/geo-tips" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a></p>
       </footer>
-    </main >
+    </main>
   );
 }
