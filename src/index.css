@@ -589,12 +589,10 @@ select.form-input {
 }
 
 .country-group-title {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: #000000;
-  margin-bottom: 24px;
-  border-left: 4px solid #000000;
-  padding-left: 12px;
+  margin-bottom: 16px;
 }
 
 .entries-grid {

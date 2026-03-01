@@ -45,6 +45,9 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
         {loading && <div className="loading">Loading hints...</div>}
 
         <div className="content-body">
+          {/* Page Content (static info like "Types of Signs") renders first */}
+          {!isContributePage && page.content}
+
           {/* Dynamic Contributions Section - Grouped by Country for Categories, direct for Countries */}
           {!isContributePage && !loading && hints.length > 0 && (
             <section className="contributions-section">
@@ -121,8 +124,6 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
             </section>
           )}
 
-          {/* Page Content (Supplementary info like websites or instructions) */}
-          {page.content}
 
           {/* Form only on contribute page */}
           {isContributePage && (
