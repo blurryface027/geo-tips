@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactCrop, { type Crop, type PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { Hint } from '../types';
@@ -47,6 +47,7 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
     const [imageSize, setImageSize] = useState<'small' | 'medium' | 'large'>('medium');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [isDraggingOver, setIsDraggingOver] = useState(false);
 
     // Crop States
     const [isCropping, setIsCropping] = useState(false);
@@ -82,28 +83,51 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
+    const processFile = useCallback((file: File) => {
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!validTypes.includes(file.type)) {
+            alert('Please upload a supported image format (JPG, PNG, WebP).');
+            if (fileInputRef.current) fileInputRef.current.value = '';
+            return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+            alert('Image must be less than 10MB.');
+            if (fileInputRef.current) fileInputRef.current.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setOriginalImageSrc(reader.result as string);
+            setIsCropping(true);
+        };
+        reader.readAsDataURL(file);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    }, []);
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-            if (!validTypes.includes(file.type)) {
-                alert('Please upload a supported image format (JPG, PNG, WebP).');
-                if (fileInputRef.current) fileInputRef.current.value = '';
-                return;
-            }
-            if (file.size > 10 * 1024 * 1024) {
-                alert('Image must be less than 10MB.');
-                if (fileInputRef.current) fileInputRef.current.value = '';
-                return;
-            }
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setOriginalImageSrc(reader.result as string);
-                setIsCropping(true);
-            };
-            reader.readAsDataURL(file);
-        }
-        if (fileInputRef.current) fileInputRef.current.value = ''; // Reset so onChange fires again if same file selected
+        if (file) processFile(file);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingOver(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingOver(false);
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingOver(false);
+        const file = e.dataTransfer.files?.[0];
+        if (file) processFile(file);
     };
 
     // Not needed with react-image-crop natively handling this
@@ -309,15 +333,39 @@ export default function ContributeForm({ hintToEdit, onCancelEdit }: ContributeF
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="image">Image (Optional)</label>
+                    <label>Image (Optional)</label>
+                    {/* Hidden native file input */}
                     <input
                         id="image"
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange}
                         ref={fileInputRef}
-                        className="form-input file-input"
+                        style={{ display: 'none' }}
                     />
+                    {/* Drag-and-drop zone */}
+                    <div
+                        className={`dropzone${isDraggingOver ? ' dropzone--active' : ''}`}
+                        onClick={() => fileInputRef.current?.click()}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Upload image by clicking or dragging and dropping"
+                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') fileInputRef.current?.click(); }}
+                    >
+                        <svg className="dropzone-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="16 16 12 12 8 16" />
+                            <line x1="12" y1="12" x2="12" y2="21" />
+                            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+                        </svg>
+                        <p className="dropzone-text">
+                            {isDraggingOver ? 'Drop image here' : 'Drag & drop an image here'}
+                        </p>
+                        <p className="dropzone-subtext">or <span className="dropzone-link">click to browse</span></p>
+                        <p className="dropzone-formats">JPG, PNG, WebP · max 10 MB</p>
+                    </div>
                     {imagePreview && (
                         <div className="image-preview-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
                             <div className="form-group">
