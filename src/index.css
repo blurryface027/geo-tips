@@ -619,69 +619,67 @@ select.form-input {
 
 .hint-card-image {
   overflow: hidden;
-  background: transparent;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  background: #f5f5f5;
+  border-radius: 4px;
+  /* Fixed uniform height — all cards the same */
+  height: 220px;
+  width: 100%;
 }
 
 .hint-card-image img {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   border-radius: 4px;
+  display: block;
 }
 
-/* Image size variants — desktop max-heights */
-.hint-img-small img {
-  max-height: 350px;
-  max-width: 100%;
+/* Image size variants — uniform fixed heights */
+.hint-img-small {
+  height: 180px;
 }
 
-.hint-img-medium img {
-  max-height: 600px;
-  max-width: 100%;
+.hint-img-medium {
+  height: 220px;
 }
 
-.hint-img-large img {
-  max-height: 1000px;
-  max-width: 100%;
+.hint-img-large {
+  height: 320px;
 }
 
-/* Large cards always span full grid width */
+/* Large cards span full grid width and get a taller box */
 .hint-card-size-large {
   grid-column: 1 / -1;
 }
 
 .hint-card-size-large .hint-img-large {
+  height: 400px;
   width: 100%;
 }
 
 .hint-card-size-large .hint-img-large img {
   width: 100%;
-  max-height: none;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Mobile card-level width rules (≤768px) */
+/* Mobile card-level image height overrides (≤768px) */
 @media (max-width: 768px) {
-  .hint-card-size-medium .hint-img-medium {
-    width: 100%;
-    margin: 0;
+  .hint-img-small {
+    height: 160px;
   }
 
-  .hint-card-size-medium .hint-img-medium img {
-    width: 100%;
-    max-height: none;
+  .hint-img-medium {
+    height: 190px;
   }
 
-  .hint-card-size-small .hint-img-small {
-    width: 100%;
-    margin: 0;
+  .hint-img-large {
+    height: 240px;
   }
 
-  .hint-card-size-small .hint-img-small img {
-    width: 100%;
-    max-height: none;
+  .hint-card-size-large .hint-img-large {
+    height: 220px;
   }
 }
 
