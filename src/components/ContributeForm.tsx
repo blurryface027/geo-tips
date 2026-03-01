@@ -26,6 +26,7 @@ const CATEGORIES = [
     { id: 'place-name', label: 'Place Name' },
     { id: 'telephone', label: 'Telephone' },
     { id: 'company', label: 'Company' },
+    { id: 'domain', label: 'Domain' },
     { id: 'license-plate', label: 'License Plate' },
     { id: 'car-meta', label: 'Car Meta' },
 ];

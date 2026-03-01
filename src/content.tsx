@@ -555,6 +555,140 @@ export const pages: Record<string, Page> = {
     description: 'Regional companies and brands can pinpoint locations.',
     content: null,
   },
+  domain: {
+    id: 'domain',
+    title: 'Domain',
+    description: 'Country-code top-level domains (ccTLDs) on signs, vehicle stickers, or websites can instantly reveal a country.',
+    content: (
+      <>
+        <h2>Country-Code Top-Level Domains (ccTLDs)</h2>
+        <p>Each country has one or more ccTLDs. Many EU members also share <strong>.eu</strong>. Internationalised domains (IDNs) are shown where they exist.</p>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Domain(s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Albania</td><td>.al</td></tr>
+            <tr><td>American Samoa</td><td>.as</td></tr>
+            <tr><td>Andorra</td><td>.ad</td></tr>
+            <tr><td>Argentina</td><td>.ar</td></tr>
+            <tr><td>Australia</td><td>.au</td></tr>
+            <tr><td>Austria</td><td>.at, .eu</td></tr>
+            <tr><td>Bangladesh</td><td>.bd, .বাংলা</td></tr>
+            <tr><td>Belarus</td><td>.by</td></tr>
+            <tr><td>Belgium</td><td>.be, .eu</td></tr>
+            <tr><td>Bhutan</td><td>.bt</td></tr>
+            <tr><td>Bolivia</td><td>.bo</td></tr>
+            <tr><td>Bosnia and Herzegovina</td><td>.ba</td></tr>
+            <tr><td>Botswana</td><td>.bw</td></tr>
+            <tr><td>Brazil</td><td>.br</td></tr>
+            <tr><td>Bulgaria</td><td>.bg, .eu, .бг, .ею</td></tr>
+            <tr><td>Cambodia</td><td>.kh</td></tr>
+            <tr><td>Canada</td><td>.ca</td></tr>
+            <tr><td>Chile</td><td>.cl</td></tr>
+            <tr><td>Christmas Island</td><td>.cx</td></tr>
+            <tr><td>Colombia</td><td>.co</td></tr>
+            <tr><td>Costa Rica</td><td>.cr</td></tr>
+            <tr><td>Croatia</td><td>.hr, .eu</td></tr>
+            <tr><td>Curaçao</td><td>.cw</td></tr>
+            <tr><td>Cyprus</td><td>.cy, .eu</td></tr>
+            <tr><td>Czech Republic</td><td>.cz, .eu</td></tr>
+            <tr><td>Denmark</td><td>.dk, .eu</td></tr>
+            <tr><td>Dominican Republic</td><td>.do</td></tr>
+            <tr><td>Ecuador</td><td>.ec</td></tr>
+            <tr><td>Estonia</td><td>.ee, .eu</td></tr>
+            <tr><td>Eswatini</td><td>.sz</td></tr>
+            <tr><td>Faroe Islands</td><td>.fo</td></tr>
+            <tr><td>Finland</td><td>.fi, .eu</td></tr>
+            <tr><td>France</td><td>.fr, .eu</td></tr>
+            <tr><td>Germany</td><td>.de, .eu</td></tr>
+            <tr><td>Ghana</td><td>.gh</td></tr>
+            <tr><td>Gibraltar</td><td>.gi</td></tr>
+            <tr><td>Greece</td><td>.gr, .eu, .ελ</td></tr>
+            <tr><td>Greenland</td><td>.gl</td></tr>
+            <tr><td>Guam</td><td>.gu</td></tr>
+            <tr><td>Guatemala</td><td>.gt</td></tr>
+            <tr><td>Hungary</td><td>.hu, .eu</td></tr>
+            <tr><td>Iceland</td><td>.is</td></tr>
+            <tr><td>India</td><td>.in, .बھارत, .भारत, .ভারত, .ਭਾਰਤ, .ભારત, .ଭାରତ, .இந்தியா, .భారత్, .ಭಾರತ, .ഭാരതം</td></tr>
+            <tr><td>Indonesia</td><td>.id</td></tr>
+            <tr><td>Ireland</td><td>.ie, .eu</td></tr>
+            <tr><td>Isle of Man</td><td>.im</td></tr>
+            <tr><td>Israel</td><td>.il</td></tr>
+            <tr><td>Italy</td><td>.it, .eu</td></tr>
+            <tr><td>Japan</td><td>.jp</td></tr>
+            <tr><td>Jersey</td><td>.je</td></tr>
+            <tr><td>Jordan</td><td>.jo, .الاردن</td></tr>
+            <tr><td>Kazakhstan</td><td>.kz</td></tr>
+            <tr><td>Kenya</td><td>.ke</td></tr>
+            <tr><td>Kyrgyzstan</td><td>.kg</td></tr>
+            <tr><td>Laos</td><td>.la, .ລາວ</td></tr>
+            <tr><td>Latvia</td><td>.lv, .eu</td></tr>
+            <tr><td>Lesotho</td><td>.ls</td></tr>
+            <tr><td>Liechtenstein</td><td>.li</td></tr>
+            <tr><td>Lithuania</td><td>.lt, .eu</td></tr>
+            <tr><td>Luxembourg</td><td>.lu, .eu</td></tr>
+            <tr><td>Madagascar</td><td>.mg</td></tr>
+            <tr><td>Malaysia</td><td>.my, .مليسيا</td></tr>
+            <tr><td>Malta</td><td>.mt, .eu</td></tr>
+            <tr><td>Mexico</td><td>.mx</td></tr>
+            <tr><td>Monaco</td><td>.mc</td></tr>
+            <tr><td>Mongolia</td><td>.mn, .мон</td></tr>
+            <tr><td>Montenegro</td><td>.me</td></tr>
+            <tr><td>Namibia</td><td>.na</td></tr>
+            <tr><td>Nepal</td><td>.np</td></tr>
+            <tr><td>Netherlands</td><td>.nl, .eu</td></tr>
+            <tr><td>New Zealand</td><td>.nz</td></tr>
+            <tr><td>Nigeria</td><td>.ng</td></tr>
+            <tr><td>North Macedonia</td><td>.mk, .мкд</td></tr>
+            <tr><td>Northern Mariana Islands</td><td>.mp</td></tr>
+            <tr><td>Norway</td><td>.no</td></tr>
+            <tr><td>Palestine</td><td>.ps</td></tr>
+            <tr><td>Panama</td><td>.pa</td></tr>
+            <tr><td>Paraguay</td><td>.py</td></tr>
+            <tr><td>Peru</td><td>.pe</td></tr>
+            <tr><td>Philippines</td><td>.ph</td></tr>
+            <tr><td>Poland</td><td>.pl, .eu</td></tr>
+            <tr><td>Portugal</td><td>.pt, .eu</td></tr>
+            <tr><td>Puerto Rico</td><td>.pr</td></tr>
+            <tr><td>Qatar</td><td>.qa</td></tr>
+            <tr><td>Romania</td><td>.ro, .eu</td></tr>
+            <tr><td>Russia</td><td>.ru, .рф</td></tr>
+            <tr><td>Rwanda</td><td>.rw</td></tr>
+            <tr><td>San Marino</td><td>.sm</td></tr>
+            <tr><td>São Tomé and Príncipe</td><td>.st</td></tr>
+            <tr><td>Senegal</td><td>.sn</td></tr>
+            <tr><td>Serbia</td><td>.rs, .срб</td></tr>
+            <tr><td>Singapore</td><td>.sg</td></tr>
+            <tr><td>Slovakia</td><td>.sk, .eu</td></tr>
+            <tr><td>Slovenia</td><td>.si, .eu</td></tr>
+            <tr><td>South Africa</td><td>.za</td></tr>
+            <tr><td>South Korea</td><td>.kr, .한국</td></tr>
+            <tr><td>Spain</td><td>.es, .eu</td></tr>
+            <tr><td>Sri Lanka</td><td>.lk, .இலங்கை, .ලංකා</td></tr>
+            <tr><td>Sweden</td><td>.se, .eu</td></tr>
+            <tr><td>Switzerland</td><td>.ch, .swiss</td></tr>
+            <tr><td>Taiwan</td><td>.tw, .台湾, .台灣</td></tr>
+            <tr><td>Thailand</td><td>.th, .ไทย</td></tr>
+            <tr><td>Tunisia</td><td>.tn, .تونس</td></tr>
+            <tr><td>Turkey</td><td>.tr</td></tr>
+            <tr><td>Uganda</td><td>.ug</td></tr>
+            <tr><td>Ukraine</td><td>.ua, .укр</td></tr>
+            <tr><td>United Arab Emirates</td><td>.ae, .امارات</td></tr>
+            <tr><td>United Kingdom</td><td>.uk</td></tr>
+            <tr><td>United States</td><td>.us</td></tr>
+            <tr><td>United States Virgin Islands</td><td>.vi</td></tr>
+            <tr><td>Uruguay</td><td>.uy</td></tr>
+            <tr><td>Vietnam</td><td>.vn</td></tr>
+            <tr><td>Åland</td><td>.ax</td></tr>
+          </tbody>
+        </table>
+      </>
+    ),
+  },
   'license-plate': {
     id: 'license-plate',
     title: 'License Plate',
@@ -734,7 +868,7 @@ export const regions: Region[] = [
 
 export const navCategories: NavCategory[] = [
   { id: 'visual-clues', label: 'Visual Clues', pages: ['language', 'sign', 'bollard', 'chevron', 'guardrail', 'pole', 'road-markings', 'vegetation', 'pavement', 'architecture'], isExpanded: true },
-  { id: 'identifiers', label: 'Identifiers', pages: ['road-numbering', 'place-name', 'telephone', 'company'], isExpanded: true },
+  { id: 'identifiers', label: 'Identifiers', pages: ['road-numbering', 'place-name', 'telephone', 'company', 'domain'], isExpanded: true },
   { id: 'vehicles', label: 'Vehicles', pages: ['license-plate', 'car-meta'], isExpanded: true },
   { id: 'resources', label: 'Resources', pages: ['contribute', 'github'], isExpanded: true },
 ];
