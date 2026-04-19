@@ -20,6 +20,7 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
   const [hintToEdit, setHintToEdit] = useState<Hint | null>(null);
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(() => isAdminAuthenticated());
+  const [lastUpdated, setLastUpdated] = useState<string>('2026-02-28');
   const isContributePage = page.id === 'contribute';
 
   const openLightbox = useCallback((src: string, alt: string) => {
@@ -41,6 +42,54 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
   const handleEditClick = (hint: Hint) => {
     setHintToEdit(hint);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const fetchLastUpdate = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('hints')
+          .select('created_at')
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (!error && data && data.length > 0) {
+          setLastUpdated(data[0].created_at);
+        }
+      } catch (err) {
+        console.error('Error fetching last update:', err);
+      }
+    };
+
+    fetchLastUpdate();
+
+    // Subscribe to changes to keep the date fresh
+    const channel = supabase
+      .channel('footer-updates')
+      .on(
+        'postgres_changes',
+        { event: '*', table: 'hints', schema: 'public' },
+        () => {
+          fetchLastUpdate();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    } catch (e) {
+      return 'February 28, 2026';
+    }
   };
 
   const handleDeleteClick = async (hint: Hint) => {
@@ -212,7 +261,7 @@ export default function Content({ page, hints, isCategoryPage, loading }: Conten
 
       <footer className="footer-meta">
         <p>Proudly developed by Krishna</p>
-        <p>Last updated: February 28, 2026</p>
+        <p>Last updated: {formatDate(lastUpdated)}</p>
         <p><a href="https://github.com/blurryface027/geo-tips" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a></p>
       </footer>
     </main>
